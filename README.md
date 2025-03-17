@@ -27,55 +27,69 @@ Write your own steps
 
 
 ## PROGRAM
-
-### Name: 
-### Register Number:
+### Name: JAYAVARSHA T
+### Register Number: 212223040075
 
 ```python
 class PeopleClassifier(nn.Module):
     def __init__(self, input_size):
         super(PeopleClassifier, self).__init__()
-        #Include your code here
+        self.fc1 = nn.Linear(input_size,32)
+        self.fc2 = nn.Linear(32,16)
+        self.fc3 = nn.Linear(16,8)
+        self.fc4 = nn.Linear(8,4)
 
-
-
-    def forward(self, x):
-        #Include your code here
+    def forward(self,x):
+      x = F.relu(self.fc1(x))
+      x = F.relu(self.fc2(x))
+      x = F.relu(self.fc3(x))
+      x = self.fc4(x)
+      return x
         
 
 ```
 ```python
 # Initialize the Model, Loss Function, and Optimizer
-
+model = PeopleClassifier(input_size=X_train.shape[1])
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(),lr=0.01)
 
 ```
 ```python
 def train_model(model, train_loader, criterion, optimizer, epochs):
-    #Include your code here
+    for epoch in range(epochs):
+    model.train()
+    for X_batch, y_batch in train_loader:
+      optimizer.zero_grad()
+      output = model(X_batch)
+      loss = criterion(output,y_batch)
+      loss.backward()
+      optimizer.step()
+
+    if (epoch + 1) % 10 == 0:
+      print(f"Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}")
 ```
 
 
 
 ## Dataset Information
 
-Include screenshot of the dataset
+![Screenshot 2025-03-17 202447](https://github.com/user-attachments/assets/da14d361-3b9a-4e00-b3cf-c3029b22ad67)
+
 
 ## OUTPUT
-
-
-
 ### Confusion Matrix
+![image](https://github.com/user-attachments/assets/f4930bc5-10d7-41ea-966b-2023443e52e3)
 
-Include confusion matrix here
 
 ### Classification Report
+![image](https://github.com/user-attachments/assets/21273234-64eb-4bff-8d1d-9c08d2aecf09)
 
-Include Classification Report here
 
 
 ### New Sample Data Prediction
+![image](https://github.com/user-attachments/assets/3bc2baa5-7257-4361-9c78-0071bc01a313)
 
-Include your sample input and output here
 
 ## RESULT
-Include your result here
+Thus a neural network classification model for the given dataset is executed successfully.
